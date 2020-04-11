@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  urlshortify:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      - urlshortify-network
+    ports:
+      - 8080:8080
+    restart: on-failure
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    networks:
+      - urlshortify-network
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO-INITDB-DABASE=url-shortener
+
+networks:
+  urlshortify-network:
+
+
