@@ -1,33 +1,30 @@
-package com.neueda.urlshortify.util;
+package com.neueda.urlshortify.helper;
 
 import eu.bitwalker.useragentutils.UserAgent;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
-public class RequestUtil {
+@Component
+public class RequestHelper {
 
-    public static String getOperatingSystemType(HttpServletRequest request){
+    private static final UrlValidator URL_VALIDATOR = new UrlValidator(new String[]{"http", "https"});
+
+    public String getOperatingSystemType(HttpServletRequest request){
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
         return userAgent.getOperatingSystem().getGroup().getName();
     }
-    public static String getBrowserType(HttpServletRequest request){
+    public  String getBrowserType(HttpServletRequest request){
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
         return userAgent.getBrowser().getGroup().getName();
     }
 
-    public static String getHostname() throws UnknownHostException {
-        String hostName = InetAddress.getLocalHost().getHostName();
-        return hostName;
+    public  boolean isValid(String url) {
+        return URL_VALIDATOR.isValid(url);
     }
 
-//    public static boolean isUrlValid(String url) {
-//        UrlValidator urlValidator = new UrlValidator();
-//        return urlValidator.isValid(url);
-//    }
-
-    public static String urlNormalization(String url) {
+    public String urlNormalization(String url) {
         if (!url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("http://"))
             url = "http://".concat(url);
         if (url.indexOf("www") < 0)
@@ -38,4 +35,5 @@ public class RequestUtil {
 
         return url;
     }
+
 }

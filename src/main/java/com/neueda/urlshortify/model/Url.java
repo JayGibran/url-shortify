@@ -2,6 +2,7 @@ package com.neueda.urlshortify.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Builder
 @Getter
+@Setter
 @Document(collection = "url")
 public class Url {
 
@@ -30,6 +32,6 @@ public class Url {
     @Indexed
     private String originalUrl;
 
-    private List<Statistics> statistics;
+    private Statistics statistics;
 
 }

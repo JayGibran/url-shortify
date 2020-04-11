@@ -14,4 +14,5 @@ import java.io.Serializable;
 public class OriginalUrlDTO implements Serializable {
 
     private String originalUrl;
+
 }

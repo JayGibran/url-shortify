@@ -1,19 +1,22 @@
 package com.neueda.urlshortify.model;
 
-import lombok.Builder;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Builder
+@Data
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Statistics {
 
-    private Long id;
+    public Long hits = 0l;
 
-    private String browser;
+    private Browser browser = new Browser();
 
-    private String os;
+    private OS os = new OS();
 
-    private LocalDateTime dateAccess;
+    public void incrementHits(){
+        hits++;
+    }
 
 }
