@@ -40,6 +40,31 @@ similar to [TinyURL.com][tinyurl] and [bitly.com][bitly], plus basic statistics 
      http://localhost:8080/swagger-ui.html
      ```
 
+### API
+
+**Shortify a URL:**
+
+```
+POST /api/v1/shortener
+```
+**Request Scheme:**
+```
+{"originalUrl":"www.google.com"}
+```
+
+**Get Original URL:**
+```
+GET /api/v1/redirect/{key}
+```
+where ***KEY*** Is shorted url 
+
+**Get Statistics:**
+
+```
+/api/v1/statistics/{key}
+```
+
+where ***KEY*** Is shorted url 
 
 # License
 Url Shortify is released under the [MIT License](https://github.com/JayGibran/url-shortify/blob/master/LICENSE).
