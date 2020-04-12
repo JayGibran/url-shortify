@@ -1,12 +1,17 @@
 package com.neueda.urlshortify.controller;
 
+import com.neueda.urlshortify.dto.OriginalUrlDTO;
 import com.neueda.urlshortify.dto.ResolveOriginalUrlDTO;
+import com.neueda.urlshortify.dto.KeyUrlDTO;
+import com.neueda.urlshortify.dto.UrlResponseDTO;
+import com.neueda.urlshortify.exception.KeyNotFoundException;
 import com.neueda.urlshortify.service.UrlShortenerService;
 import com.neueda.urlshortify.helper.RequestHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/redirect")
@@ -27,24 +31,23 @@ public class UrlRedirectController {
     @Autowired
     private RequestHelper requestHelper;
 
+    @Autowired
+    private MessageSource messageSource;
+
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/{key}")
-    public ResponseEntity<Void> redirectUrl(@PathVariable String key, HttpServletRequest request){
+    public ResponseEntity<UrlResponseDTO> redirectUrl(@PathVariable String key, HttpServletRequest request) throws KeyNotFoundException {
         ResolveOriginalUrlDTO dto = ResolveOriginalUrlDTO.builder()
-                .shortUrl(key)
+                .key(key)
                 .browser(requestHelper.getBrowserType(request))
                 .os(requestHelper.getOperatingSystemType(request))
                 .build();
-        String originalUrl = urlShortenerService.getOriginalUrl(dto);
-        if (originalUrl == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        UrlResponseDTO responseDTO = urlShortenerService.getOriginalUrl(dto);
+        if (dto == null) {
+            throw new KeyNotFoundException(messageSource.getMessage(
+                    "key.not.find", null, LocaleContextHolder.getLocale()));
         }
-
-        HttpHeaders respHeader = new HttpHeaders();
-        respHeader.setLocation(URI.create(originalUrl));
-        respHeader.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, max-age=0, must-revalidate");
-        ResponseEntity<Void> resp = new ResponseEntity<>(respHeader, HttpStatus.FOUND);
-        return resp;
+        return new ResponseEntity<UrlResponseDTO>(responseDTO, HttpStatus.OK);
     }
 }

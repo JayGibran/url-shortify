@@ -1,7 +1,8 @@
 package com.neueda.urlshortify.controller;
 
 import com.neueda.urlshortify.dto.OriginalUrlDTO;
-import com.neueda.urlshortify.exception.UrlShortenerException;
+import com.neueda.urlshortify.dto.KeyUrlDTO;
+import com.neueda.urlshortify.exception.MalFormedURLException;
 import com.neueda.urlshortify.service.UrlShortenerService;
 import com.neueda.urlshortify.helper.RequestHelper;
 import org.slf4j.Logger;
@@ -33,22 +34,20 @@ public class UrlShortenerController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @PostMapping
-    public ResponseEntity<String> shortener(@RequestBody OriginalUrlDTO dto) throws UrlShortenerException {
+    public ResponseEntity<KeyUrlDTO> shortener(@RequestBody OriginalUrlDTO dto) throws MalFormedURLException {
         if(StringUtils.isEmpty(dto.getOriginalUrl())){
-            return new ResponseEntity<>(
-             messageSource.getMessage(
-                     "not.empty.or.null", null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
+            throw new MalFormedURLException(messageSource.getMessage(
+                     "not.empty.or.null", null, LocaleContextHolder.getLocale()));
         };
 
         if(!requestHelper.isValid(dto.getOriginalUrl())){
-            return new ResponseEntity<>(
-                    messageSource.getMessage(
-                            "url.invalid", null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
+            throw new MalFormedURLException(messageSource.getMessage(
+                    "url.invalid", null, LocaleContextHolder.getLocale()));
         }
 
         String url = requestHelper.urlNormalization(dto.getOriginalUrl());
 
-        return new ResponseEntity<>(urlShortenerService.shortenUrl(url), HttpStatus.OK);
+        return new ResponseEntity<KeyUrlDTO>(urlShortenerService.shortenUrl(url), HttpStatus.OK);
     }
 
 }

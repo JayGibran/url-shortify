@@ -3,17 +3,20 @@ package com.neueda.urlshortify.dto;
 import com.neueda.urlshortify.model.Browser;
 import com.neueda.urlshortify.model.OS;
 import lombok.Builder;
+import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Builder
-public class StatisticsDTO {
+@Data
+public class StatisticsDTO implements Serializable {
 
-    public Long hits;
+    private Long hits;
 
-    public Browser browser;
+    private Browser browser;
 
-    public OS os;
+    private OS os;
 
-    public LocalDateTime lastAccess;
+    private LocalDateTime lastAccess;
 }

@@ -7,18 +7,10 @@ import lombok.Getter;
 @Getter
 public class ResolveOriginalUrlDTO {
 
-    private String shortUrl;
+    private String key;
 
     private String browser;
 
     private String os;
 
-    @Override
-    public String toString() {
-        return "ResolveOriginalUrlDTO{" +
-                "shortUrl='" + shortUrl + '\'' +
-                ", browser='" + browser + '\'' +
-                ", os='" + os + '\'' +
-                '}';
-    }
 }
