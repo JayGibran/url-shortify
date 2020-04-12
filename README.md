@@ -2,7 +2,7 @@
 
 # Overview
 Url Shortify is an restful api for shortening URL,
-similar to [TinyURL.com][tinyurl] and https://bitly.com, plus basic statistics over the data.
+similar to [TinyURL.com][tinyurl] and [bitly.com][bitly], plus basic statistics over the data.
 
 # Features
 - Development based on Spring Boot and Redis.
@@ -31,6 +31,7 @@ similar to [TinyURL.com][tinyurl] and https://bitly.com, plus basic statistics o
      $ mvn -DskipTests clean package -U
      $ docker-compose up
      ```
+   By default the Server will run on localhost:8080
   
   3. Test the REST APIs
      ```
@@ -42,4 +43,4 @@ similar to [TinyURL.com][tinyurl] and https://bitly.com, plus basic statistics o
 Url Shortify is released under the [MIT License](https://github.com/JayGibran/url-shortify/blob/master/LICENSE).
 
 [tinyurl]:https://tinyurl.com/
-[dwz]:http://dwz.cn/
+[bitly]:https://bitly.com
