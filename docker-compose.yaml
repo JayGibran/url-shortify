@@ -13,6 +13,13 @@ services:
     depends_on:
       - mongodb
 
+  redis:
+    image: redis
+    networks:
+      - urlshortify-network
+    ports:
+      - 6379:6379
+
   mongodb:
     image: mongo:3.6
     networks:

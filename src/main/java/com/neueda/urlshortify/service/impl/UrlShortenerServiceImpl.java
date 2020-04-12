@@ -1,10 +1,11 @@
 package com.neueda.urlshortify.service.impl;
 
-import com.google.common.hash.Hashing;
-import com.neueda.urlshortify.dto.OriginalUrlDTO;
+import com.google.common.io.BaseEncoding;
 import com.neueda.urlshortify.dto.ResolveOriginalUrlDTO;
 import com.neueda.urlshortify.dto.KeyUrlDTO;
 import com.neueda.urlshortify.dto.UrlResponseDTO;
+import com.neueda.urlshortify.helper.IDConverter;
+import com.neueda.urlshortify.helper.IncrementCounter;
 import com.neueda.urlshortify.helper.StatisticsHelper;
 import com.neueda.urlshortify.model.Statistics;
 import com.neueda.urlshortify.model.Url;
@@ -15,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -28,7 +28,11 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     @Autowired
     private StatisticsHelper statisticsHelper;
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private IncrementCounter counterProvider;
+
+    @Autowired
+    private IDConverter converter;
 
 
     @Override
@@ -39,10 +43,9 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     }
 
     private Url saveNewUrl (String originalUrl){
-        String key = Hashing.murmur3_32().hashString(originalUrl, Charset.defaultCharset()).toString();
         Url newUrlSaved = Url.builder()
                 .originalUrl(originalUrl)
-                .key(key)
+                .key(converter.encode(counterProvider.provideCounter()))
                 .statistics(new Statistics())
                 .createdDate(LocalDateTime.now())
                 .build();
@@ -54,7 +57,6 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     public UrlResponseDTO getOriginalUrl(ResolveOriginalUrlDTO dto) {
         Optional<Url> optionalUrl = urlRepository.findByKey(dto.getKey());
         if(!optionalUrl.isPresent()) return null;
-
         Url url = optionalUrl.get();
         url.setStatistics(statisticsHelper.updateStats(dto, url.getStatistics()));
         url.setLastAccessDate(LocalDateTime.now());
@@ -62,7 +64,5 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         UrlResponseDTO responseDTO = UrlResponseDTO.builder().originalUrl(url.getOriginalUrl()).build();
         return responseDTO;
     }
-
-
-
+    
 }

@@ -29,12 +29,8 @@ public class StatisticsController {
         StatisticsDTO dto = statisticsService.getStatistics(key);
         if (dto == null) {
             throw new KeyNotFoundException(messageSource.getMessage(
-                    "key.not.find", null, LocaleContextHolder.getLocale()));
-
+                    "key.not.found", null, LocaleContextHolder.getLocale()));
         }
-
         return new ResponseEntity<StatisticsDTO>(dto, HttpStatus.OK);
     }
-
-
 }

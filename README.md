@@ -5,7 +5,7 @@ Url Shortify is an restful api for shortening URL,
 similar to [TinyURL.com][tinyurl] and [bitly.com][bitly], plus basic statistics over the data.
 
 # Features
-- Development based on Spring Boot and use MongoDB as persistence storage.
+- Development based on Spring Boot, Redis and MongoDB.
 - Support for building on docker-compose.
 - Providing REST APIs for shortening a URL and get the original URL.
 - Providing extended REST APIs for data statistics, such as the total hits, last access date and etc.
@@ -16,6 +16,7 @@ similar to [TinyURL.com][tinyurl] and [bitly.com][bitly], plus basic statistics 
   >  * Git
   >  * Maven 3.5.3 or above
   >  * MongoDB
+  >  * Redis
   >  * Docker Engine
   >  * Swagger
   >  * A Java IDE like IntelliJ IDEA (optional)
