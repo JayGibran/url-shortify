@@ -5,8 +5,8 @@ Url Shortify is an restful api for shortening URL,
 similar to [TinyURL.com][tinyurl] and [bitly.com][bitly], plus basic statistics over the data.
 
 # Features
-- Development based on Spring Boot and Redis.
-- Support for building docker image by a maven plugin named dockerfile-maven-plugin.
+- Development based on Spring Boot and use MongoDB as persistence storage.
+- Support for building on docker-compose.
 - Providing REST APIs for shortening a URL and get the original URL.
 - Providing extended REST APIs for data statistics, such as the total hits, last access date and etc.
 
@@ -17,6 +17,7 @@ similar to [TinyURL.com][tinyurl] and [bitly.com][bitly], plus basic statistics 
   >  * Maven 3.5.3 or above
   >  * MongoDB
   >  * Docker Engine
+  >  * Swagger
   >  * A Java IDE like IntelliJ IDEA (optional)
  
  # Run the project
@@ -28,14 +29,14 @@ similar to [TinyURL.com][tinyurl] and [bitly.com][bitly], plus basic statistics 
      
   2. Build an image from the Dockerfile
      ```bash
-     $ mvn -DskipTests clean package -U
+     $ mvn -DskipTests clean package
      $ docker-compose up
      ```
    By default the Server will run on localhost:8080
   
   3. Test the REST APIs
      ```
-     http://127.0.0.1/swagger-ui.html
+     http://localhost:8080/swagger-ui.html
      ```
 
 

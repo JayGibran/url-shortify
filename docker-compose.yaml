@@ -14,7 +14,7 @@ services:
       - mongodb
 
   mongodb:
-    image: mongo
+    image: mongo:3.6
     networks:
       - urlshortify-network
     ports:

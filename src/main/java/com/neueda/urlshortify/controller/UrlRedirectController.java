@@ -44,9 +44,9 @@ public class UrlRedirectController {
                 .os(requestHelper.getOperatingSystemType(request))
                 .build();
         UrlResponseDTO responseDTO = urlShortenerService.getOriginalUrl(dto);
-        if (dto == null) {
+        if (responseDTO == null) {
             throw new KeyNotFoundException(messageSource.getMessage(
-                    "key.not.find", null, LocaleContextHolder.getLocale()));
+                    "key.not.found", null, LocaleContextHolder.getLocale()));
         }
         return new ResponseEntity<UrlResponseDTO>(responseDTO, HttpStatus.OK);
     }
