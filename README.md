@@ -10,8 +10,7 @@ similar to [TinyURL.com][tinyurl] and [bitly.com][bitly], plus basic statistics 
 - Providing REST APIs for shortening a URL and get the original URL.
 - Providing extended REST APIs for data statistics, such as the total hits, last access date and etc.
 
-# Stack
-  >  The minimum requirements to run the quick start are: 
+# Stack 
   >  * JDK 1.8 or above
   >  * Git
   >  * Maven 3.5.3 or above
