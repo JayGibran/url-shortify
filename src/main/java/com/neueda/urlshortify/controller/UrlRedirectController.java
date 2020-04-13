@@ -35,8 +35,6 @@ public class UrlRedirectController {
     @Autowired
     private MessageSource messageSource;
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
     @GetMapping("/{key}")
     public ResponseEntity<UrlResponseDTO> redirectUrl(@PathVariable String key, HttpServletRequest request) throws KeyNotFoundException {
         ResolveOriginalUrlDTO dto = ResolveOriginalUrlDTO.builder()

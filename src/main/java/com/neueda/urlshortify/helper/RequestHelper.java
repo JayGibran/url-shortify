@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class RequestHelper {
 
-    private static final UrlValidator URL_VALIDATOR = new UrlValidator(new String[]{"http", "https"});
+    private static final UrlValidator URL_VALIDATOR = new UrlValidator();
 
     public String getOperatingSystemType(HttpServletRequest request){
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
